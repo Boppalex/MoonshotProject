@@ -21,7 +21,7 @@
 
 - [Functional Specifications: Avoid Food Waste Application](#functional-specifications-avoid-food-waste-application)
   - [Introduction](#introduction)
-    - [1.1 Glossary](#11-glossary)
+    - [1.1 Glossary // Important to adjust and modify it](#11-glossary--important-to-adjust-and-modify-it)
     - [1.2 Purpose](#12-purpose)
     - [1.3 Scope](#13-scope)
     - [1.4 Name Explanation](#14-name-explanation)
@@ -53,7 +53,7 @@
 
 ## Introduction
 
-### 1.1 Glossary
+### 1.1 Glossary // Important to adjust and modify it
 
 | **Term**                        | **Definition**                                                                                                                                              |
 |---------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -62,7 +62,7 @@
 | **Meal Planning**               | The practice of scheduling meals ahead of time, taking into account user preferences and existing pantry stock, to optimize food usage and reduce waste.    |
 | **Automated Shopping List Generation** | A feature that calculates and compiles a shopping list with precise quantities of ingredients needed based on the selected recipes and serving sizes. |
 | **Pantry Inventory Management** | A system that allows users to input and track food items already available at home, facilitating smarter shopping by preventing redundant purchases.       |
-| **Intelligent Chatbot**         | An AI-powered conversational agent that assists users in finding recipes by analyzing available ingredients and preferences through interactive dialogue.  |
+| **Intelligent Chatbot**         | An python conversational agent that assists users in finding recipes by analyzing available ingredients and preferences through interactive dialogue.  |
 | **Expiration Tracking**         | The monitoring of expiration dates for perishable items in the pantry, with timely notifications to encourage usage before spoilage occurs.                  |
 
 ### 1.2 Purpose
@@ -148,7 +148,7 @@ sequenceDiagram
 #### c. Intelligent Recipe Suggestions via Chatbot
 
 - **User Interaction:**  
-  - An AI-powered chatbot interacts with users to help them find recipes based on available ingredients or specific preferences. It can understand natural language and suggest recipes accordingly.
+  - A chatbot interacts with users to help them find recipes based on available ingredients or specific preferences. It can understand natural language and suggest recipes accordingly.
   
 - **Conversational Guidance:**  
   - The chatbot refines search criteria through dialogue. It can ask follow-up questions like "Do you prefer vegetarian recipes?" or "Do you have any dietary restrictions?" to suggest appropriate recipes.
