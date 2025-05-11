@@ -67,7 +67,7 @@
 
 ### 1.2 Purpose
 
-The purpose of the **Avoid Food Waste** application is to minimize household food waste by helping users manage their meal planning, pantry inventory, and shopping intelligently. The app empowers individuals to make informed food choices, reduce over-purchasing, and ultimately save money while contributing to environmental sustainability.
+The purpose of the **0waste** application is to minimize household food waste by helping users manage their meal planning, pantry inventory, and shopping intelligently. The app empowers individuals to make informed food choices, reduce over-purchasing, and ultimately save money while contributing to environmental sustainability.
 
 ### 1.3 Scope
 
@@ -81,7 +81,7 @@ The application is designed for everyday users such as families, students, and e
 
 ### 1.4 Name Explanation
 
-The project is named **0watse** because the name offers multiple interpretations. It can be read as "zero waste," aligning with the goal of eliminating food waste, or as a suggestion to "use all you have," emphasizing resource optimization. Moreover, the name is concise, memorable, and easy to communicate.
+The project is named **0watse** because the name offers multiple interpretations. It can be read as "zero waste," aligning with the goal of eliminating food waste, or as a suggestion to "use all you have," emphasizing resource optimization. Moreover, the name is concise and easy to communicate.
 
 ### 1.5 Team & Roles
 
