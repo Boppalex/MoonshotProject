@@ -21,7 +21,7 @@
 
 - [Functional Specifications: Avoid Food Waste Application](#functional-specifications-avoid-food-waste-application)
   - [Introduction](#introduction)
-    - [1.1 Glossary // Important to adjust and modify it](#11-glossary--important-to-adjust-and-modify-it)
+    - [1.1 Glossary](#11-glossary)
     - [1.2 Purpose](#12-purpose)
     - [1.3 Scope](#13-scope)
     - [1.4 Name Explanation](#14-name-explanation)
@@ -35,16 +35,23 @@
     - [2.2 Deliverables](#22-deliverables)
     - [2.3 Functional Requirements](#23-functional-requirements)
     - [2.4 Non Functional Requirements](#24-non-functional-requirements)
+  - [App Mockups](#app-mockups)
+    - [3.1 Main App Interface](#31-main-app-interface)
+    - [3.2 Recipe Details \& Cooking Steps](#32-recipe-details--cooking-steps)
+    - [3.3 Pantry Inventory System](#33-pantry-inventory-system)
+    - [3.4 Integrated Chatbot](#34-integrated-chatbot)
+    - [3.5 Shopping Cart](#35-shopping-cart)
+    - [3.6 Login \& Signup](#36-login--signup)
   - [Context](#context)
-    - [Personas](#personas)
+    - [4.1 Personas](#41-personas)
       - [Persona 1: Eco-Conscious Emily](#persona-1-eco-conscious-emily)
       - [Persona 2: Budget-Conscious Bob](#persona-2-budget-conscious-bob)
-    - [Use Cases](#use-cases)
+    - [4.2 Use Cases](#42-use-cases)
   - [Risk](#risk)
-    - [Data Security \& Integrity](#data-security--integrity)
-    - [Risk Assessment](#risk-assessment)
-    - [Market Competitors](#market-competitors)
-    - [Risk Management Plan](#risk-management-plan)
+    - [5.1 Data Security \& Integrity](#51-data-security--integrity)
+    - [5.2 Risk Assessment](#52-risk-assessment)
+    - [5.3 Market Competitors](#53-market-competitors)
+    - [5.4 Risk Management Plan](#54-risk-management-plan)
   - [Future Improvements](#future-improvements)
 
 </details>
@@ -53,17 +60,19 @@
 
 ## Introduction
 
-### 1.1 Glossary // Important to adjust and modify it
+### 1.1 Glossary
 
-| **Term**                        | **Definition**                                                                                                                                              |
-|---------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Avoid Food Waste Application**| A mobile/web application designed to reduce household food waste by facilitating efficient meal planning, pantry management, and intelligent shopping.    |
-| **Recipe Selection**            | The process by which users choose desired recipes from a curated database, with options to customize servings to fit their needs.                             |
-| **Meal Planning**               | The practice of scheduling meals ahead of time, taking into account user preferences and existing pantry stock, to optimize food usage and reduce waste.    |
-| **Automated Shopping List Generation** | A feature that calculates and compiles a shopping list with precise quantities of ingredients needed based on the selected recipes and serving sizes. |
-| **Pantry Inventory Management** | A system that allows users to input and track food items already available at home, facilitating smarter shopping by preventing redundant purchases.       |
-| **Intelligent Chatbot**         | An python conversational agent that assists users in finding recipes by analyzing available ingredients and preferences through interactive dialogue.  |
-| **Expiration Tracking**         | The monitoring of expiration dates for perishable items in the pantry, with timely notifications to encourage usage before spoilage occurs.                  |
+Term                          | Definition
+-----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------
+**Firebase**                     | A Backend-as-a-Service (BaaS) platform by Google offering tools like real-time database (Firestore), authentication, hosting, and file storage. It allows developers to build and scale web and mobile apps without managing infrastructure.
+**Chatbot (not-AI)**             | A conversational agent that operates based on rule-based logic (e.g., keyword matching or decision trees), providing responses and actions without machine learning or AI. Useful for structured interactions like recipe suggestions.
+**Database**                    | A structured system for storing, managing, and querying data. In this context, recipes, pantry items, user profiles, and preferences are stored in a database (e.g., Firestore).
+**Local Storage (Browser)**      | A web storage API that enables websites to store data persistently in a user's browser. Unlike cookies, localStorage is not sent with every HTTP request and is useful for storing app state or user preferences offline.
+**Cache**                      | A temporary storage layer that saves static assets (e.g., images, scripts, or data responses) locally to speed up subsequent accesses and reduce server load. Commonly implemented using Service Workers in web apps.
+**Navigator Storage (IndexedDB)** | A low-level browser API for storing large amounts of structured data, including files and blobs. It enables offline functionality and complex client-side storage in progressive web apps.
+**Authentication**               | A process of verifying the identity of users. Firebase Authentication, for example, allows users to sign in using email/password, Google, or other providers securely.
+**Session Storage**              | Similar to localStorage but limited to the duration of a page session. Data is cleared when the page is closed, making it suitable for temporary state like login sessions. |
+**API (Application Programming Interface)** | A set of defined rules and protocols that allow different software systems to communicate with each other. In this project, the Spoonacular API is used to retrieve recipe data from a remote server and display it in the app. APIs typically respond with structured data formats like JSON or XML, enabling seamless integration of external content into your application. |
 
 ### 1.2 Purpose
 
@@ -167,9 +176,37 @@ sequenceDiagram
 
 #### d. Recipe Access & Cooking Guidance
 
-- **Digital Cookbook:**  
-  - Provides detailed, step-by-step cooking instructions for chosen recipes, accessible at any time. Users can follow along as they cook and return to any step if needed.
+- **Digital Cookbook**
+  - Provides users with detailed, step-by-step instructions for selected recipes. Users can follow each cooking stage at their own pace, with the ability to go back or forward as needed.
+
+    - To power this feature, the application integrates with the Spoonacular API.
+
+    - Spoonacular is a comprehensive food and recipe database that allows developers to fetch:
+
+    - Recipes with instructions
+
+    - Ingredients and quantities
+
+    - Nutritional information
+
+    - Dietary tags (e.g., vegetarian, gluten-free)
+
+    - Meal planning options
+
+  - By sending HTTP requests to Spoonacular’s endpoints, the app dynamically retrieves the relevant recipe content based on user preferences or chatbot suggestions.
   
+```mermaid
+  sequenceDiagram
+    participant User
+    participant App
+    participant Spoonacular API
+
+    User->>App: Requests a recipe
+    App->>Spoonacular API: Sends API request (e.g., /recipes/search)
+    Spoonacular API-->>App: Returns JSON response with recipe data
+    App-->>User: Displays step-by-step cooking instructions
+```
+
 - **Ingredient Tracking:**  
   - Highlights which ingredients are already available in the user's pantry versus those that need to be purchased, ensuring the user knows exactly what to buy.
 
@@ -228,7 +265,8 @@ flowchart TD
   The user interface must be intuitive and accessible to a wide range of users, ensuring a smooth and engaging experience. This includes support for accessibility features (e.g., text-to-speech, high-contrast mode).
 
 - **Security:**  
-  Although minimal sensitive data is handled, secure authentication (if implemented) and robust data integrity measures must be enforced to protect user data.
+  Although minimal sensitive data is handled, secure authentication (with firebase) and robust data integrity measures must be enforced to protect user data.
+  - Using a login page to access to your datas.
 
 - **Compatibility:**  
   The application must work on modern web browsers and be responsive to different screen sizes, ensuring accessibility across various devices (e.g., smartphones, tablets, desktops).
@@ -246,9 +284,49 @@ graph TD
 
 ---
 
+## App Mockups
+
+### 3.1 Main App Interface
+
+<img src="../../images/mainapp.png" width="200" alt="app"/>
+<img src="../../images/mainapplog.png" width="200" alt="applog"/>
+
+The only difference between these two screens is the icon in the top-right corner, which indicates whether the user is logged in. Clicking on the icon redirects the user to the login or signup pages. Once logged in, the user is redirected back to the main page, and the icon updates accordingly.
+
+### 3.2 Recipe Details & Cooking Steps
+
+<img src="../../images/fooddescription.png" width="200" alt="food"/>
+
+Clicking the button on the main page takes the user to this recipe detail page, which includes the steps for preparing the dish.
+
+### 3.3 Pantry Inventory System
+
+<img src="../../images/pantry.png" width="200" alt="pantry"/>
+<img src="../../images/pantrynewing.png" width="200" alt="pantrynew"/>
+
+This feature allows users to create and register ingredients. When a recipe is added to the cart, the app checks the pantry to avoid adding ingredients the user already has—helping reduce waste.
+
+### 3.4 Integrated Chatbot
+
+<img src="../../images/chatbot.png" width="200" alt="chatbot"/>
+If users have ingredients but don’t know what to cook, they can ask the integrated chatbot. It will suggest recipes based on the available ingredients.
+
+### 3.5 Shopping Cart
+
+<img src="../../images/cart.png" width="200" alt="cart"/>
+
+This screen displays the ingredients required for the recipes the user has selected.
+
+### 3.6 Login & Signup
+
+<img src="../../images/login.png" width="200" alt="log"/>
+<img src="../../images/signup.png" width="200" alt="signup"/>
+
+These pages allow users to log in or sign up. Initially, the app can be used without logging in, but in the final version, login will be required. This will be managed using Firebase or a similar service.
+
 ## Context
 
-### Personas
+### 4.1 Personas
 
 #### Persona 1: Eco-Conscious Emily
 
@@ -279,7 +357,7 @@ graph TD
   - To stick to a budget by preventing unnecessary purchases.  
   - To reduce waste by planning meals with the food he already owns.
 
-### Use Cases
+### 4.2 Use Cases
 
 | **Use Case**                             | **Description**                                                                                          | **Actor**                     |
 |------------------------------------------|----------------------------------------------------------------------------------------------------------|-------------------------------|
@@ -294,10 +372,10 @@ graph TD
 
 ## Risk
 
-### Data Security & Integrity
+### 5.1 Data Security & Integrity
 
 - **Authentication:**  
-  - Minimal login authentication is implemented to control access, even though the application primarily manages non-sensitive food ingredient data.  
+  - Optional sign-in, is implemented to control access, even though the application primarily manages non-sensitive food ingredient data.  
   - Should the scope expand to include sensitive information (e.g., card details), enhanced authentication and security protocols will be introduced.
 
 - **Data Sensitivity:**  
@@ -311,7 +389,7 @@ graph TD
 - **Security Best Practices:**  
   - Despite its internal use, industry-standard security measures will be adopted to maintain data integrity and support potential future enhancements.
 
-### Risk Assessment
+### 5.2 Risk Assessment
 
 | **Risk**                                          | **Likelihood** | **Impact** | **Mitigation Strategy**                                      |
 |---------------------------------------------------|----------------|------------|--------------------------------------------------------------|
@@ -321,7 +399,7 @@ graph TD
 | User adoption challenges due to complex UI        | Medium         | Medium     | Focus on a minimalist, intuitive design and provide tutorials. |
 | Data loss in inventory records                    | Low            | High       | Implement backup solutions and data validation checks.       |
 
-### Market Competitors
+### 5.3 Market Competitors
 
 Several applications currently address food waste reduction, including:
 
@@ -332,7 +410,7 @@ Several applications currently address food waste reduction, including:
 
 *Note:* Unlike these competitors, the **Avoid Food Waste** application focuses on individual household management, personalized meal planning, and dynamic pantry integration.
 
-### Risk Management Plan
+### 5.4 Risk Management Plan
 
 - **Risk Identification:**  
   All potential risks, from technical issues (e.g., scalability and AI inaccuracies) to user-centric concerns (e.g., UI complexity and data security), are identified early in the development cycle.
@@ -360,15 +438,19 @@ This risk management plan will be continuously updated throughout the project li
 
 1. **Partnerships with Major Supermarkets**
    - Integrate direct ordering through the app (pickup/delivery options).
+
 2. **Advanced AI Enhancements**
    - Personalize recipe and shopping suggestions based on user habits.
    - Incorporate voice command functionality for hands-free operation.
+  
 3. **Sustainability Metrics**
    - Add carbon footprint analysis for meals and shopping choices.
    - Provide eco-friendly recommendations for ingredient substitutions.
+  
 4. **Expanded Community Features**
    - Enhance food-sharing capabilities with user ratings and verification.
    - Create forums for recipe exchange and sustainable practices discussion.
+  
 5. **Enhanced Reporting & Analytics**
    - Develop dashboards to track food waste reduction and cost savings over time.
    - Export shopping and inventory data for further analysis.
