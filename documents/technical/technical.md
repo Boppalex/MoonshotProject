@@ -1,13 +1,30 @@
+<div align="center">
+
 # Technical Specifications – Inventory Web App
+
+**Author:** Alexandre Bopp
+
+**Title:** Technical Specification
+
+**Last updated:** May 03, 2025
+
+**Team:** 5
+
+</div>
 
 - [Technical Specifications – Inventory Web App](#technical-specifications--inventory-web-app)
   - [1. Audience](#1-audience)
     - [🎯 Primary Audiences](#-primary-audiences)
-  - [2. Project Overview](#2-project-overview)
-    - [🎯 Objectives](#-objectives)
-    - [🔑 Core Features](#-core-features)
-    - [🛠️ Architecture Philosophy](#️-architecture-philosophy)
-    - [🌐 Stack Summary](#-stack-summary)
+  - [2. Project Overview – Explained](#2-project-overview--explained)
+    - [✨ Objectives (What, Why, How)](#-objectives-what-why-how)
+    - [🔑 Core Features – With Purpose](#-core-features--with-purpose)
+      - [1. Inventory Management](#1-inventory-management)
+      - [2. Recipe Generation via Chatbot](#2-recipe-generation-via-chatbot)
+      - [3. Digital Cookbook](#3-digital-cookbook)
+      - [4. User Authentication (Optional)](#4-user-authentication-optional)
+      - [5. Offline Capability](#5-offline-capability)
+    - [📈 Architecture Philosophy](#-architecture-philosophy)
+    - [🌐 Stack Summary – Explained](#-stack-summary--explained)
   - [3. Glossary](#3-glossary)
   - [4. Requirements](#4-requirements)
     - [4.1 Core Features](#41-core-features)
@@ -30,11 +47,26 @@
     - [6.2 Inventory Flow](#62-inventory-flow)
   - [7. Non-Functional Requirements](#7-non-functional-requirements)
   - [8. Deliverables](#8-deliverables)
+    - [✅ Source Code (Git Repository)](#-source-code-git-repository)
+    - [✅ Firebase Project (Functional Setup)](#-firebase-project-functional-setup)
+    - [✅ Firestore Security Rules (Example File)](#-firestore-security-rules-example-file)
+    - [✅ README File With Setup Instructions](#-readme-file-with-setup-instructions)
+    - [📸 Screenshots / User Manual](#-screenshots--user-manual)
   - [9. Development Framework](#9-development-framework)
     - [9.1 Code Principles](#91-code-principles)
     - [9.2 Anticipated Challenges](#92-anticipated-challenges)
     - [9.3 Known Bugs (WIP)](#93-known-bugs-wip)
     - [9.4 Dev Process](#94-dev-process)
+      - [Feature-First Iterative Development](#feature-first-iterative-development)
+      - [Version Control](#version-control)
+      - [Deployment Workflow](#deployment-workflow)
+      - [Documentation](#documentation)
+    - [9.5 Testing Strategy](#95-testing-strategy)
+      - [Unit Testing](#unit-testing)
+      - [Component Testing](#component-testing)
+      - [Integration Testing](#integration-testing)
+      - [Manual \& Exploratory Testing](#manual--exploratory-testing)
+      - [Firebase Rules Testing](#firebase-rules-testing)
 
 ## 1. Audience
 
@@ -65,67 +97,96 @@ This document is tailored for a **technical audience** that will participate in 
 
 ---
 
-## 2. Project Overview
+## 2. Project Overview – Explained
 
-The Inventory Web App is a lightweight, free-to-use platform that promotes sustainable consumption by helping users **track their food inventory**, **discover recipes**, and **minimize food waste**.
+The **Inventory Web App** is designed as a lightweight, free-to-use solution to promote **sustainable food consumption**. It allows users to track what they have at home, discover recipes using those ingredients, and reduce waste — all while supporting offline access.
 
-The app is built to be **offline-first**, highly responsive, and easy to maintain with no cost to the end-user or the developer.
-
-### 🎯 Objectives
-
-- Provide a seamless way for users to manage their kitchen inventory.
-- Suggest recipes dynamically based on what the user already has at home.
-- Empower users with a simple and clean UI that works across devices.
-- Support offline interaction using browser-based storage like `IndexedDB` or `localStorage`.
+The following explains **what the app does**, **why each feature exists**, and **how it is implemented**.
 
 ---
 
-### 🔑 Core Features
+### ✨ Objectives (What, Why, How)
 
-- **Inventory Management**
-  - Add, edit, and remove ingredients.
-  - Track expiration dates.
-  - Persist inventory in Firestore or local storage.
+* **What:** Enable users to manage kitchen inventory seamlessly.
 
-- **Recipe Generation via Chatbot**
-  - Suggest recipes based on ingredients using the Spoonacular API.
-  - Integrated chat interface powered by a simple Python chatbot or hosted NLP microservice.
+  * **Why:** Manual tracking leads to forgotten or wasted items. A digital system improves awareness and organization.
+  * **How:** Users can add, edit, or delete items in a simple UI backed by Firestore or local storage.
 
-- **Digital Cookbook**
-  - Display step-by-step instructions fetched from Spoonacular.
-  - Filter recipes based on dietary needs (if supported by the free API plan).
+* **What:** Dynamically suggest recipes based on available ingredients.
 
-- **User Authentication (Optional)**
-  - Register/Login with Firebase Authentication.
-  - Guest usage enabled during MVP, but user login may be required in production to sync across devices.
+  * **Why:** Encourages users to cook with what they already have, reducing unnecessary purchases.
+  * **How:** A chatbot interface uses the Spoonacular API to generate recipe suggestions based on pantry contents.
 
-- **Offline Capability**
-  - Store all data in `IndexedDB` when the user is offline.
-  - Sync with Firebase Firestore when the network is available.
+* **What:** Provide a responsive, mobile-first UI.
 
----
+  * **Why:** The primary user device is likely a smartphone in the kitchen. UX must be optimized for small screens.
+  * **How:** The app uses Tailwind CSS and React for fast, responsive layouts.
 
-### 🛠️ Architecture Philosophy
+* **What:** Support full offline functionality.
 
-- **Free**: Built with free tiers only (Firebase, Spoonacular API, browser cache).
-- **Simple to Deploy**: Runs fully in the browser with no external backend.
-- **Mobile-Platform Ready**: Mobile-first, but can be accessible for now on computers.
-- **Minimal Latency**: Uses local cache and asynchronous sync to reduce wait time.
+  * **Why:** Users may not always have stable internet access (e.g., while shopping or cooking).
+  * **How:** Uses `IndexedDB` to cache data locally, syncing to Firestore when online.
 
 ---
 
-### 🌐 Stack Summary
+### 🔑 Core Features – With Purpose
 
-| Layer        | Tech                         | Notes                                                  |
-|--------------|------------------------------|--------------------------------------------------------|
-| Frontend     | React (Vite), Tailwind CSS   | Modern SPA with fast dev experience                   |
-| State Mgmt   | Zustand or Context API        | Simple and lightweight state sharing                  |
-| Auth         | Firebase Authentication      | Free tier with email/password & anonymous sign-in     |
-| Database     | Firebase Firestore           | Real-time sync, rules-based access, free tier support |
-| Offline Sync | IndexedDB / localStorage     | Prevents data loss and allows usage with no internet  |
-| External API | Spoonacular (Free API key)   | Recipe search, instructions, and ingredient parsing    |
+#### 1. Inventory Management
+
+* Core to the app’s mission — tracks what users own.
+* Users perform CRUD (Create, Read, Update, Delete) actions on their items, stored either in Firestore (if authenticated) or IndexedDB (if offline or in guest mode).
+* **Extra:** Expiration tracking helps users prioritize usage before spoilage.
+
+#### 2. Recipe Generation via Chatbot
+
+* Solves the classic “What can I cook tonight?” problem using existing pantry items.
+* Integrates with the Spoonacular API. Users input ingredients or meal types into a chatbot interface to receive recipe suggestions.
+* **Extra:** The assistant provides links and images, improving engagement.
+
+#### 3. Digital Cookbook
+
+* Helps users follow instructions without switching platforms.
+* Displays recipe cards with ingredient lists and step-by-step guides fetched via API.
+* **Optional Feature:** After cooking, prompt to auto-remove used ingredients from inventory.
+
+#### 4. User Authentication (Optional)
+
+* Allows data sync across devices and stores user preferences.
+* Firebase Authentication supports login with email/password or anonymous sign-in. Guest users rely on local caching (IndexedDB).
+* **Security:** All Firestore records are tied to a UID to isolate data.
+
+#### 5. Offline Capability
+
+* Essential for usability in real-world kitchen or grocery scenarios.
+* IndexedDB handles all CRUD operations offline. When the network returns, changes are synced to Firestore using a background service.
 
 ---
+
+### 📈 Architecture Philosophy
+
+| Principle           | Why It Matters                                   | How It’s Achieved                                 |
+| ------------------- | ------------------------------------------------ | ------------------------------------------------- |
+| **Free to Run**     | Keeps the app sustainable and open to more users | Uses Firebase's free tier, Spoonacular's free API |
+| **Deploy Anywhere** | Makes setup and hosting effortless               | Built with Vite + Firebase Hosting                |
+| **Mobile-First**    | Most users will access via phone                 | Tailwind CSS, responsive layouts                  |
+| **Fast & Offline**  | Reduces friction in low-connectivity areas       | IndexedDB caching, async sync to Firestore        |
+
+---
+
+### 🌐 Stack Summary – Explained
+
+| Layer          | Tech                       | Why This Tool / How It’s Used                                          |
+| -------------- | -------------------------- | ---------------------------------------------------------------------- |
+| **Frontend**   | React (Vite), Tailwind CSS | Fast SPA with responsive UI and atomic components                      |
+| **State Mgmt** | Zustand or Context API     | Zustand for scalable feature state (e.g., inventory), Context for auth |
+| **Auth**       | Firebase Authentication    | Easy to implement, secure, session persistence out-of-the-box          |
+| **Database**   | Firebase Firestore         | Scalable NoSQL with real-time sync and offline queueing                |
+| **Offline**    | IndexedDB / localStorage   | Full offline support, guest usage, persistent caching                  |
+| **API**        | Spoonacular (Free Tier)    | Rich recipe data and NLP-powered search functionality                  |
+
+
+---
+
 ## 3. Glossary
 
 | **Term**                  | **Description**                                                                                           |
@@ -285,22 +346,52 @@ flowchart TD
 - If authenticated, fetch inventory from Firestore
 - If not, redirect user to login or load guest mode with local data
 
+**Pseudocode:**
+```js
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // Authenticated session
+    fetchUserInventory(user.uid); // Load inventory from Firestore
+  } else {
+    // Unauthenticated session
+    navigateTo('/login'); // Or allow guest mode with local storage
+  }
+});
+```
+
 ---
 
 #### Inventory Flow
 
 ```mermaid
 flowchart TD
-    A[App Start] --> B{Online or Offline?}
-    B -- Online --> C{Is user authenticated?}
-    C -- Yes --> D[Sync IndexedDB to Firestore]
-    C -- No --> E[Use IndexedDB only (guest mode)]
-    B -- Offline --> F[Load Inventory from IndexedDB]
+  A[App Start] --> B{Online or Offline?}
+  B -- Online --> C{Is user authenticated?}
+  C -- Yes --> D[Sync IndexedDB to Firestore]
+  C -- No --> E[Use IndexedDB only]
+  B -- Offline --> F[Load Inventory from IndexedDB]
 ```
 
 - Ensures full CRUD even in guest or offline state
 - Changes queued and synced to Firestore when reconnected
 - IndexedDB stores the exact same structure for compatibility
+
+**Pseudocode:**
+```js
+  if (navigator.onLine) {
+    if (userIsAuthenticated()) {
+      const localData = readFromIndexedDB();
+      syncToFirestore(localData); // Push changes online
+    } else {
+      const guestData = readFromIndexedDB();
+      useLocalState(guestData); // Guest mode, no sync
+    }
+  } else {
+    const offlineData = readFromIndexedDB();
+    useLocalState(offlineData); // Fully offline fallback
+  }
+```
+
 
 ---
 
@@ -308,17 +399,38 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    A[Inventory Page] --> B[User clicks "Suggest Recipe"]
+    A[Inventory Page] --> B[User clicks on Suggest Recipe]
     B --> C[Collect available ingredients]
     C --> D[Send ingredients to Spoonacular API]
     D --> E[Receive recipe suggestions]
-    E --> F[Display cards with "Cook Now" option]
+    E --> F[Display cards with Cook Now]
     F --> G[Show interactive, step-by-step instructions]
 ```
 
 - Local pantry is the source of truth
 - API queries only include ingredients the user has
 - Assistant uses formatted prompt logic (non-AI) to query Spoonacular
+
+**Pseudocode:**
+```js
+  function handleSuggestRecipe() {
+    const ingredients = getAvailableIngredients(); // From inventory state
+
+    fetch(`https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredients.join(',')}`)
+      .then(response => response.json())
+      .then(recipes => {
+        displayRecipeCards(recipes); // Show as clickable cards
+      });
+  }
+
+  function handleCookNow(recipeId) {
+    fetch(`https://api.spoonacular.com/recipes/${recipeId}/analyzedInstructions`)
+      .then(response => response.json())
+      .then(steps => {
+        showStepByStepInstructions(steps); // One step at a time
+      });
+  }
+```
 
 ---
 
@@ -427,39 +539,62 @@ These define the system’s behavior beyond specific features—focusing on perf
 
 ---
 
-The following outputs are expected as part of the development and delivery process of the Inventory Web App:
+The following deliverables are expected to ensure the Inventory Web App is easy to run, maintain, and extend by any developer joining the project.
 
-- **✅ Source Code (Git Repository)**  
-  - All source files organized under a clear folder structure  
-  - Includes components, hooks, context, and utility functions  
-  - Environment configuration (`.env.example`) provided  
-  - Git-based version control with meaningful commit messages
+### ✅ Source Code (Git Repository)
 
-- **✅ Working Firebase Project**  
-  - Functional Firebase setup with:
-    - Firebase Authentication enabled
-    - Firestore database provisioned and structured
-    - Firebase rules in place for scoped data access
+- Well-structured source code following industry conventions
+- Includes all components, hooks, contexts, and utilities
+- `.env.example` file provided to guide environment variable setup
+- Clean Git history with descriptive commit messages
+- Modular folder organization for frontend logic and configuration
 
-- **✅ Example Firestore Security Rules**  
-  - A file or section with tested security rules limiting access by UID  
-  - Written with least privilege and user-level scope in mind  
-  - Includes rules for reads, writes, and validations
+> The goal is to provide a clean starting point and full visibility into how the app works under the hood.
 
-- **✅ Deployment Script or Guide**  
-  - A CLI script or `README.md` with instructions to:
-    - Install dependencies (`npm install`)
-    - Set up Firebase CLI and project (`firebase init`)
-    - Run locally (`npm run dev`)
-    - Deploy to Firebase Hosting (`firebase deploy`)
+---
 
-- **📸 Screenshots / Video Demo (Optional)**  
-  - (Optional but recommended) A walkthrough video or image sequence demonstrating:
-    - Auth flow
-    - Inventory operations
-    - Chatbot and cookbook usage
+### ✅ Firebase Project (Functional Setup)
 
-> 📦 Deliverables should be self-contained to allow another dev to clone, setup, and deploy without ambiguity.
+- Firebase Authentication enabled with email/password and anonymous sign-in
+- Firestore rules configured for user-scoped access control
+- Firebase initialized and ready for local and production usage
+
+> Firebase setup ensures the app can be deployed without additional backend work and remains scalable using free-tier infrastructure.
+
+---
+
+### ✅ Firestore Security Rules (Example File)
+
+- Clear and scoped rules based on authenticated user UID
+- Prevents unauthorized reads/writes across users
+- Includes validation logic for common fields (e.g., `createdAt`, `status`)
+
+> Security is a first-class concern — rules are designed with the principle of least privilege and future extensibility in mind.
+
+---
+
+### ✅ README File With Setup Instructions
+
+- Step-by-step guide to:
+  - Clone the project
+  - Install dependencies (`npm install`)
+  - Configure Firebase and environment variables
+  - Run the app locally (`npm run dev`)
+  - Deploy to Firebase Hosting (`firebase deploy`)
+- Includes links to tools (Firebase CLI, Vite, etc.) and troubleshooting notes
+
+> The README serves as the onboarding manual — making setup straightforward and error-free for new contributors.
+
+---
+
+### 📸 Screenshots / User Manual
+
+- Visual & Guide walkthrough covering:
+  - Authentication flow
+  - Inventory management
+  - Chatbot and recipe interface
+  - Main idea about the application
+- Useful for stakeholders, testers, or open-source contributors
 
 ---
 
@@ -469,81 +604,152 @@ The following outputs are expected as part of the development and delivery proce
 
 ### 9.1 Code Principles
 
-The project will follow clear, modular, and maintainable coding principles:
+The project adheres to best practices in frontend development to ensure scalability, performance, and maintainability.
 
-- **Component Reusability (React)**  
-  - Build UI elements as atomic components (e.g., `Button`, `Card`, `ItemRow`)  
-  - Use composition to extend functionality rather than duplicate logic
+* **Component Reusability (React)**
+  Build reusable and composable UI components for consistency and modularity. Examples include:
 
-- **State Management via Context or Zustand**  
-  - Global auth state via `React Context`  
-  - Local or per-feature state with lightweight tools like `Zustand` or `useReducer`  
-  - Avoid prop drilling and maintain predictable state updates
+  * `Button`, `Input`, `Modal`, `ItemCard`
+  * These atomic components can be combined into complex UIs without rewriting logic
 
-- **Separation of Concerns**  
-  - Logic extracted into custom hooks (`useInventory`, `useAuth`)  
-  - API and storage logic separated into service modules  
-  - UI, state, and side-effects clearly decoupled
+* **State Management with Context & Zustand**
+  Purpose: Efficiently manage app-wide and feature-specific state.
 
-- **Type Safety (Optional TypeScript)**  
-  - Types/interfaces for inventory items, recipe structures, and auth users  
-  - Reduce runtime bugs and improve DX (Developer Experience)
+  * **React Context** will be used specifically for **auth state**, such as storing the current user's session and UID.
 
-- **Naming & Structure**  
-  - File-based routing and modular folders (`/components`, `/hooks`, `/services`, `/pages`)  
-  - Clear and consistent naming conventions (camelCase, kebab-case for files)
+    * Accessible across all components without prop drilling
+    * Useful for conditionally rendering protected routes and loading user-specific data
+  * **Zustand** is preferred for local state like inventory form data, filters, or UI toggles.
+
+    * Lightweight, scalable alternative to Redux
+    * Easy to use for multiple independent state slices (e.g., `useInventoryStore`, `useUIStore`)
+
+* **Separation of Concerns**
+  Enforce modularity between data handling, business logic, and UI.
+
+  * API logic isolated in `/services`
+  * Data-fetching and sync handled by custom hooks (e.g., `useFirestoreInventory()`)
+  * Components focused purely on rendering and interactions
+
+* **Type Safety with TypeScript (Optional)**
+
+  * Type definitions for:
+
+    * Inventory item: `Item { id: string, name: string, quantity: number, status: string, tags?: string[] }`
+    * Auth user: `User { uid: string, email: string }`
+    * Recipe format from Spoonacular API
+  * Helps catch bugs at compile time and improves autocomplete and refactoring
+
+* **Project Structure & Naming**
+  Consistent folder and file naming to improve navigation and clarity.
+
+  ```plaintext
+  /src
+  ├── /components      # UI components
+  ├── /hooks           # Custom React hooks
+  ├── /services        # Firestore, Spoonacular, caching logic
+  ├── /contexts        # Auth and App Contexts
+  ├── /pages           # Route views like Home, Login, Cookbook
+  ├── /store           # Zustand state slices
+  └── /utils           # Helpers, formatters, validators
+  ```
 
 ---
 
 ### 9.2 Anticipated Challenges
 
-| Challenge                          | Description                                                                 |
-|-----------------------------------|-----------------------------------------------------------------------------|
-| **Offline Edge Cases**            | Handling item updates when offline and syncing to Firestore without loss   |
-| **Merge Conflicts on Sync**       | Managing item duplication or overwrites during reconnection                |
-| **Security Rule Misconfigurations** | Risk of overexposing user data or blocking legitimate actions              |
-| **Browser Storage Limits**        | IndexedDB has storage limits that vary by browser (~50MB typically)        |
-| **API Rate Limits (Spoonacular)** | Free tier limits could restrict usage under heavy testing or load          |
+| Challenge                           | Description                                                               |
+| ----------------------------------- | ------------------------------------------------------------------------- |
+| **Offline Edge Cases**              | Syncing locally cached data (IndexedDB) with Firestore after reconnecting |
+| **Merge Conflicts on Sync**         | Avoiding duplication when an item is edited offline then resynced         |
+| **Security Rule Misconfigurations** | Firebase rules must be restrictive and tested to prevent data leakage     |
+| **Browser Storage Limits**          | Ensure guest mode remains within IndexedDB capacity (typically 50MB)      |
+| **API Rate Limits (Spoonacular)**   | Free-tier limits require smart caching and usage throttling               |
 
-> 🔄 Offline-first logic adds significant complexity—proper testing and fallback flows are essential.
+> 🧠 Proper error boundaries, retry strategies, and fallback logic must be part of sync logic.
 
 ---
 
 ### 9.3 Known Bugs (WIP)
 
-Bugs will be tracked and resolved iteratively using GitHub Issues or a similar ticketing system.
+Bug tracking will be managed via GitHub Issues with clear reproduction steps and labels (e.g., `bug`, `sync`, `ui-glitch`).
 
-Initial known concerns include:
+Initial known issues include:
 
-- 🔁 Double writes on re-connection in offline mode
-- ⚠️ UI race conditions during simultaneous edits
-- 📆 Incorrect expiration sorting on some browsers
-- 🔒 Misaligned Firestore rules when new fields are added
-
-> Bugs will be labeled, prioritized, and addressed via pull requests.
+* 🔁 Double-write events on reconnect after offline actions
+* ⚠️ UI race conditions when two tabs update inventory simultaneously
+* 📆 Expiry dates occasionally misordered due to local timezone mismatches
+* 🔒 Firestore rules require updates when new item fields are added
 
 ---
 
 ### 9.4 Dev Process
 
-The development strategy follows an agile, iteration-first approach:
+#### Feature-First Iterative Development
 
-- **Feature-Driven Development**  
-  - New features built in isolated branches  
-  - Small, testable chunks pushed regularly
+* Small, isolated branches for each feature (e.g., `feat/inventory-filter`)
+* Regular merges into `main` via pull requests with code reviews
+* Use GitHub Projects or Issues for roadmap visibility
 
-- **Code Reviews & Testing**  
-  - Peer-reviewed PRs (if in team setting)  
-  - Manual testing for UX and data correctness
+#### Version Control
 
-- **Deployment Strategy**  
-  - Firebase CLI for deployment to live/staging environments  
-  - CI/CD optional but scriptable with GitHub Actions
+* Semantic commit messages (e.g., `feat: add tag filter`, `fix: prevent duplicate sync`)
+* Git tags for marking release versions
 
-- **Documentation**  
-  - All major components and hooks documented inline  
-  - `README.md` provides setup, usage, and contribution guidelines
+#### Deployment Workflow
 
-> 🔁 Iterative delivery enables early feedback and fast adaptation to changes.
+* Firebase CLI used for staging and production deploys
+* `firebase.json` and `.firebaserc` configured per environment
+* Future CI/CD via GitHub Actions can handle automated tests + deploys
+
+#### Documentation
+
+* `README.md` with project overview, setup steps, Firebase configuration, and contribution guide
+* Each service, hook, and major component documented inline with JSDoc or TypeScript comments
 
 ---
+
+### 9.5 Testing Strategy
+
+Robust testing ensures code quality, data integrity, and UX consistency.
+
+#### Unit Testing
+
+* Tools: **Vitest** or **Jest**
+* Target:
+
+  * Custom hooks (e.g., `useInventory`, `useFirestoreSave`)
+  * Utility functions (e.g., sorting, filtering, validation)
+  * Zustand store logic
+
+#### Component Testing
+
+* Tools: **React Testing Library** + **Vitest**
+* Focus on:
+
+  * Form behavior (`AddItemForm`, `LoginForm`)
+  * Conditional rendering based on auth state
+  * Dialogs, modals, and interactive components
+
+#### Integration Testing
+
+* End-to-end flow simulations using **Cypress** or **Playwright**
+* Scenarios:
+
+  * Auth + inventory item CRUD
+  * Chatbot recipe suggestion and step navigation
+  * Offline + reconnect sync test
+
+#### Manual & Exploratory Testing
+
+* Done regularly during dev using real device simulators/emulators (mobile-first)
+* Validate UI responsiveness and accessibility
+
+#### Firebase Rules Testing
+
+* Use Firebase Emulator Suite to:
+
+  * Simulate authenticated/unauthenticated users
+  * Test Firestore rule coverage using unit scripts
+
+> ✅ All new features must be accompanied by basic unit or integration tests before merge.
