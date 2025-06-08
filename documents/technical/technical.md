@@ -107,25 +107,25 @@ The following explains **what the app does**, **why each feature exists**, and *
 
 ### ✨ Objectives (What, Why, How)
 
-* **What:** Enable users to manage kitchen inventory seamlessly.
+- **What:** Enable users to manage kitchen inventory seamlessly.
 
-  * **Why:** Manual tracking leads to forgotten or wasted items. A digital system improves awareness and organization.
-  * **How:** Users can add, edit, or delete items in a simple UI backed by Firestore or local storage.
+  - **Why:** Manual tracking leads to forgotten or wasted items. A digital system improves awareness and organization.
+  - **How:** Users can add, edit, or delete items in a simple UI backed by Firestore or local storage.
 
-* **What:** Dynamically suggest recipes based on available ingredients.
+- **What:** Dynamically suggest recipes based on available ingredients.
 
-  * **Why:** Encourages users to cook with what they already have, reducing unnecessary purchases.
-  * **How:** A chatbot interface uses the Spoonacular API to generate recipe suggestions based on pantry contents.
+  - **Why:** Encourages users to cook with what they already have, reducing unnecessary purchases.
+  - **How:** A chatbot interface uses the Spoonacular API to generate recipe suggestions based on pantry contents.
 
-* **What:** Provide a responsive, mobile-first UI.
+- **What:** Provide a responsive, mobile-first UI.
 
-  * **Why:** The primary user device is likely a smartphone in the kitchen. UX must be optimized for small screens.
-  * **How:** The app uses Tailwind CSS and React for fast, responsive layouts.
+  - **Why:** The primary user device is likely a smartphone in the kitchen. UX must be optimized for small screens.
+  - **How:** The app uses Tailwind CSS and React for fast, responsive layouts.
 
-* **What:** Support full offline functionality.
+- **What:** Support full offline functionality.
 
-  * **Why:** Users may not always have stable internet access (e.g., while shopping or cooking).
-  * **How:** Uses `IndexedDB` to cache data locally, syncing to Firestore when online.
+  - **Why:** Users may not always have stable internet access (e.g., while shopping or cooking).
+  - **How:** Uses `IndexedDB` to cache data locally, syncing to Firestore when online.
 
 ---
 
@@ -133,32 +133,32 @@ The following explains **what the app does**, **why each feature exists**, and *
 
 #### 1. Inventory Management
 
-* Core to the app’s mission — tracks what users own.
-* Users perform CRUD (Create, Read, Update, Delete) actions on their items, stored either in Firestore (if authenticated) or IndexedDB (if offline or in guest mode).
-* **Extra:** Expiration tracking helps users prioritize usage before spoilage.
+- Core to the app’s mission — tracks what users own.
+- Users perform CRUD (Create, Read, Update, Delete) actions on their items, stored either in Firestore (if authenticated) or IndexedDB (if offline or in guest mode).
+- **Extra:** Expiration tracking helps users prioritize usage before spoilage.
 
 #### 2. Recipe Generation via Chatbot
 
-* Solves the classic “What can I cook tonight?” problem using existing pantry items.
-* Integrates with the Spoonacular API. Users input ingredients or meal types into a chatbot interface to receive recipe suggestions.
-* **Extra:** The assistant provides links and images, improving engagement.
+- Solves the classic “What can I cook tonight?” problem using existing pantry items.
+- Integrates with the Spoonacular API. Users input ingredients or meal types into a chatbot interface to receive recipe suggestions.
+- **Extra:** The assistant provides links and images, improving engagement.
 
 #### 3. Digital Cookbook
 
-* Helps users follow instructions without switching platforms.
-* Displays recipe cards with ingredient lists and step-by-step guides fetched via API.
-* **Optional Feature:** After cooking, prompt to auto-remove used ingredients from inventory.
+- Helps users follow instructions without switching platforms.
+- Displays recipe cards with ingredient lists and step-by-step guides fetched via API.
+- **Optional Feature:** After cooking, prompt to auto-remove used ingredients from inventory.
 
 #### 4. User Authentication (Optional)
 
-* Allows data sync across devices and stores user preferences.
-* Firebase Authentication supports login with email/password or anonymous sign-in. Guest users rely on local caching (IndexedDB).
-* **Security:** All Firestore records are tied to a UID to isolate data.
+- Allows data sync across devices and stores user preferences.
+- Firebase Authentication supports login with email/password or anonymous sign-in. Guest users rely on local caching (IndexedDB).
+- **Security:** All Firestore records are tied to a UID to isolate data.
 
 #### 5. Offline Capability
 
-* Essential for usability in real-world kitchen or grocery scenarios.
-* IndexedDB handles all CRUD operations offline. When the network returns, changes are synced to Firestore using a background service.
+- Essential for usability in real-world kitchen or grocery scenarios.
+- IndexedDB handles all CRUD operations offline. When the network returns, changes are synced to Firestore using a background service.
 
 ---
 
@@ -183,7 +183,6 @@ The following explains **what the app does**, **why each feature exists**, and *
 | **Database**   | Firebase Firestore         | Scalable NoSQL with real-time sync and offline queueing                |
 | **Offline**    | IndexedDB / localStorage   | Full offline support, guest usage, persistent caching                  |
 | **API**        | Spoonacular (Free Tier)    | Rich recipe data and NLP-powered search functionality                  |
-
 
 ---
 
