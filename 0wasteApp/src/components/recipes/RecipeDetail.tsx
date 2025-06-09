@@ -27,23 +27,23 @@ const RecipeDetail: React.FC = () => {
   const handleAddToCart = () => {
     const ratio = selectedRecipe.servings ? servings / selectedRecipe.servings : 1;
   
-    // On parcourt chaque ingrédient de la recette
+    // We go through each ingredient of the recipe
     selectedRecipe.ingredients?.forEach(ingredient => {
-      // Vérification si l'ingrédient est déjà dans l'inventaire
+      // Check if the ingredient is already in inventory
       const pantryItem = pantryItems.find(item =>
         item.name.toLowerCase() === ingredient.name.toLowerCase() &&
         item.unit.toLowerCase() === ingredient.unit?.toLowerCase()
       );
   
-      // Si l'ingrédient existe déjà dans l'inventaire, on ne l'ajoute pas au panier
+      // If the ingredient already exists in the inventory, it is not added to the cart
       if (pantryItem) {
-        return; // On saute l'ajout de cet ingrédient au panier
+        return; // (Supposed to)We skip adding this ingredient to the basket 
       }
   
-      // Si l'ingrédient n'est pas dans l'inventaire, on calcule la quantité nécessaire
+      // If the ingredient is not in inventory, the required quantity is calculated
       const quantityToAdd = ingredient.amount * ratio;
   
-      // On ajoute l'ingrédient au panier si la quantité nécessaire est > 0
+      // Add the ingredient to the basket if the quantity required is > 0
       if (quantityToAdd > 0) {
         addToCart({
           name: ingredient.name,
@@ -53,7 +53,7 @@ const RecipeDetail: React.FC = () => {
       }
     });
   
-    // Afficher un message de confirmation que l'on a ajouté des éléments au panier
+    //Display a confirmation message that items have been added to the cart
     setIsAddedToCart(true);
     setTimeout(() => setIsAddedToCart(false), 2000);
   };

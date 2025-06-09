@@ -18,7 +18,7 @@ const RecipeList: React.FC = () => {
     const fetchInitialRecipes = async () => {
       setIsLoading(true);
       try {
-        // 🔁 APPEL RÉEL À L’API SPOONACULAR
+        // Call API SPOONACULAR
         const data = await searchRecipes('');
         console.log('API results:', data);
         setRecipes(data);
@@ -41,7 +41,7 @@ const RecipeList: React.FC = () => {
   
     setIsLoading(true);
     try {
-      // 🔁 APPEL RÉEL À L’API SPOONACULAR
+      // CAll API SPOONACULAR
       const data = await searchRecipes(searchTerm);
       console.log('Search results:', data);
       setRecipes(data);

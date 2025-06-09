@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { toast } from '@/components/ui/use-toast';
 
-// Icon path per category (SVGs should be inside /public/icons/)
+// Icon path per category 
 const categoryIcons: Record<string, string> = {
   Vegetables: '/src/icons/vegetables.svg',
   Fruits: '/src/icons/fruit.svg',
