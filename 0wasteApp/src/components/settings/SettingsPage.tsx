@@ -114,6 +114,7 @@ const SettingsPage: React.FC = () => {
             </div>
           </RadioGroup>
         </CardContent>
+
       </Card>
 
       {/* User Account */}
@@ -206,6 +207,47 @@ const SettingsPage: React.FC = () => {
           </p>
           <p className="text-xs text-gray-400">Version 1.0.0</p>
         </CardContent>
+        <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-2 sm:space-y-0 pt-4 border-t mt-4">
+      <Button
+        variant="secondary"
+        onClick={() => {
+          auth.signOut();
+          toast({
+            title: 'Signed out',
+            description: 'You have been logged out.',
+          });
+        }}
+      >
+        Logout
+      </Button>
+
+      <Button
+        variant="destructive"
+        onClick={async () => {
+          const confirmed = window.confirm('Are you sure you want to delete your account? This action is irreversible.');
+          if (!confirmed) return;
+
+          try {
+            await reauthenticate();
+            await user?.delete();
+            toast({
+              title: 'Account deleted',
+              description: 'Your account has been successfully removed.',
+            });
+            auth.signOut();
+          } catch (error: any) {
+            toast({
+              title: 'Error',
+              description: error.message,
+              variant: 'destructive',
+            });
+          }
+        }}
+      >
+        Delete Account
+      </Button>
+    </div>
+
       </Card>
     </div>
   );
